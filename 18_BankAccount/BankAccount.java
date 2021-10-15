@@ -1,3 +1,8 @@
+//Eric He
+//APCS
+//HW18 -- CPA-One
+//2021-10-14
+
 public class BankAccount{
 	private double balance;
 	private String accountNumber;
