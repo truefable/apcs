@@ -1,5 +1,19 @@
+/*
+KLEH: Eric He and Kevin Li
+APCS
+HW20: External Audit
+2021-10-19
+QCC: 
+DISCO: 
+    - We withdrew a negative amount to increase the balance in p4
+    - We set the balance to a negative number in p3
+    - After depositing a double value in ba, the number of digits in the decimals increased from 2 to 12 and there was .000000000001 more dollars in there than we deposited so we may have caused a rounding error
+    - We were able to copy the account info of ba into p6 because the mutator methods return the previous value of the instance variables
+A good Q: What operations are possible from BankAccount’s main() method but not Teller’s?
+*/
+
 public class Teller{
-	public void main(String args[]){
+	public static void main(String args[]){
 		//Test
 		BankAccount ba = new BankAccount();
     		ba.setName("A");
@@ -50,5 +64,14 @@ public class Teller{
 		p5.setBalance(100);
 		p5.withdraw(200);
 		System.out.println(p5.toString());
+
+        	BankAccount p6 = new BankAccount();
+        	p6.setName(ba.setName("abcd"));
+        	p6.setPin(ba.setPin(0000));
+        	p6.setPassword(ba.setPassword("abcd"));
+        	p6.setAccountNumber(ba.setAccountNumber(0));
+        	p6.setBalance(ba.setBalance(-100));
+        	System.out.println(p6.toString());
+        	System.out.println(ba.authenticate(ba.setAccountNumber(0), ba.setPassword("abcd")));
     }		
 }
