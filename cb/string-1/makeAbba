@@ -1,0 +1,4 @@
+public String makeAbba(String a, String b) {
+  String pattern = a + b + b + a;
+  return pattern;
+}

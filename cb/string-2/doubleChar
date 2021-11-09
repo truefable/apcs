@@ -1,0 +1,7 @@
+public String doubleChar(String str) {
+  if (str.length() == 0){
+    return "";
+  } else {
+    return str.substring(0,1) + str.substring(0,1) + doubleChar(str.substring(1));
+  }
+}
