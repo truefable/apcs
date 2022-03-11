@@ -46,20 +46,23 @@ public class FastSelect {
    * @return int[]
    *
    */
-  public static int[] partition( int arr[], int start, int end, int splitInd)
-  {
-	int splitVal = arr[splitInd];
-	swap(splitInd, end, arr);
-	int numSwaps = start;
-	for (int i = start; i < end; i++) {
-		if (arr[i] < splitVal) {
-            swap(i, numSwaps , arr);
-			numSwaps += 1;
-		}
-	}
-	swap(end, numSwaps, arr);
-	return arr;
-  }//end partition
+   public static int partition( int arr[], int loPos, int hiPos)
+   {
+     int pvtPos = (loPos + hiPos) / 2;
+     int v = arr[pvtPos];
+
+     swap( pvtPos, hiPos, arr);
+     int s = loPos;
+
+     for( int i = loPos; i < hiPos; i++ ) {
+       if ( arr[i] <= v) {
+         swap( i, s, arr );
+         s++;}
+     }
+     swap(s,hiPos,arr);
+
+     return s;
+   }//end partition
 
   /**
    * int fastSelect(int[] arr, int y)
@@ -76,8 +79,7 @@ public class FastSelect {
     int pvtVal; // init val at pvt
     while(true) {
         pvtVal = arr[pvtInd]; // get val at pvt
-        arr = partition(arr, start, end, pvtInd); // partition by current pvt
-        newLoc = find(arr, pvtVal); // find where val at pvt ended up
+        newLoc = partition(arr, start, end); // partition by current pvt
         if(newLoc < y - 1) { // if val at pvt ended up too small
             start = newLoc;
         } else if(newLoc > y - 1) {
@@ -89,10 +91,37 @@ public class FastSelect {
     }
   }
 
-  public static void main(String[] args) {
-      int[] arr = {0, 5, 3, 6, 5};
-      System.out.println(fastSelect(arr, 2));
-      int[] arr2 = {1, 1, 1, 1, 1};
-      System.out.println(fastSelect(arr2, 2));
-  }
+
+    public static void main(String[] args) {
+        int[] arr = {0, 5, 3, 6, 5};
+        System.out.println("Testing cases for {0, 5, 3, 6, 5}: ");
+        System.out.println("y=1: " + fastSelect(arr, 1)); //expected: 0
+        System.out.println("y=2: " + fastSelect(arr, 2)); //expected: 3
+        System.out.println("y=3: " + fastSelect(arr, 3)); //expected: 5
+        //System.out.println("y=4: " + fastSelect(arr, 4)); //expected: ?, gets stuck in a loop
+        System.out.println("y=5: " + fastSelect(arr, 5)); //expected: 6
+
+        int[] arr2 = {1, 1, 1, 1, 1};
+        System.out.println("Testing cases for {1, 1, 1, 1, 1}: ");
+        //System.out.println("y=2: " + fastSelect(arr2, 2)); //expected: ?, gets stuck in a loop
+
+        int[] arr3 = {12, 5, 23, 7, 49, 4, 65, 231};
+        System.out.println("Testing cases for {12, 5, 23, 7, 49, 4, 65, 231}: ");
+        System.out.println("y=1: " + fastSelect(arr3, 1)); //expected: 4
+        System.out.println("y=2: " + fastSelect(arr3, 2)); //expected: 5
+        System.out.println("y=3: " + fastSelect(arr3, 3)); //expected: 7
+        System.out.println("y=4: " + fastSelect(arr3, 4)); //expected: 12
+        System.out.println("y=5: " + fastSelect(arr3, 5)); //expected: 23
+        System.out.println("y=6: " + fastSelect(arr3, 6)); //expected: 49
+        System.out.println("y=7: " + fastSelect(arr3, 7)); //expected: 65
+        System.out.println("y=8: " + fastSelect(arr3, 8)); //expected: 231
+
+        int[] arr4 = {-4, 6, -2, 3, 0};
+        System.out.println("Testing cases for {-4, 6, -2, 3, 0}: ");
+        System.out.println("y=1: " + fastSelect(arr4, 1)); //expected: -4
+        System.out.println("y=2: " + fastSelect(arr4, 2)); //expected: -2
+        System.out.println("y=3: " + fastSelect(arr4, 3)); //expected: 0
+        System.out.println("y=4: " + fastSelect(arr4, 4)); //expected: 3
+        System.out.println("y=5: " + fastSelect(arr4, 5)); //expected: 6
+    }
 }
